@@ -25,13 +25,11 @@ namespace RestrictMouse
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            refreshProc();
             if (Settings.Default.mode == "window")
                 RadioWindow.Checked = true;
             else
                 RadioProcess.Checked = true;
-            if (ProcessList.Items.Contains(Settings.Default.target))
-                ProcessList.Text = Settings.Default.target;
+            refreshProc();
             winFocusChange.SystemEventHandler += (hWinEventHook, eventType, hwnd, idObject, idChild, dwEventThread, dwmsEventTime) => onWinFocusChange(hwnd);
         }
 
@@ -74,6 +72,8 @@ namespace RestrictMouse
                 titles = titledProc.Select(p => p.ProcessName).ToArray();
             ProcessList.Items.Clear();
             ProcessList.Items.AddRange(titles);
+            if (ProcessList.Items.Contains(Settings.Default.target))
+                ProcessList.Text = Settings.Default.target;
             controlsEnabled(true);
             Cursor.Current = Cursors.Default;
         }
