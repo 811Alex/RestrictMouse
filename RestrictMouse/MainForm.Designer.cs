@@ -55,6 +55,7 @@
             this.ProcessList.Name = "ProcessList";
             this.ProcessList.Size = new System.Drawing.Size(313, 21);
             this.ProcessList.TabIndex = 1;
+            this.ProcessList.SelectedIndexChanged += new System.EventHandler(this.ProcessList_SelectedIndexChanged);
             // 
             // labelTarget
             // 

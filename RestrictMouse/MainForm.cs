@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Diagnostics;
+using RestrictMouse.Properties;
 using static RestrictMouse.WinIF;
 
 namespace RestrictMouse
@@ -25,6 +26,12 @@ namespace RestrictMouse
         private void MainForm_Load(object sender, EventArgs e)
         {
             refreshProc();
+            if (Settings.Default.mode == "window")
+                RadioWindow.Checked = true;
+            else
+                RadioProcess.Checked = true;
+            if (ProcessList.Items.Contains(Settings.Default.target))
+                ProcessList.Text = Settings.Default.target;
             winFocusChange.SystemEventHandler += (hWinEventHook, eventType, hwnd, idObject, idChild, dwEventThread, dwmsEventTime) => onWinFocusChange(hwnd);
         }
 
@@ -81,12 +88,19 @@ namespace RestrictMouse
 
         private void RadioWindow_CheckedChanged(object sender, EventArgs e)
         {
-            if(RadioWindow.Checked) refreshProc();
+            if (RadioWindow.Checked) refreshProc();
         }
 
         private void RadioProcess_CheckedChanged(object sender, EventArgs e)
         {
             if (RadioProcess.Checked) refreshProc();
+        }
+
+        private void ProcessList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Settings.Default.target = ProcessList.Text;
+            Settings.Default.mode = RadioWindow.Checked ? "window" : "process";
+            Settings.Default.Save();
         }
     }
 }
