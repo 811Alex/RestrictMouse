@@ -35,8 +35,10 @@ namespace RestrictMouse
 
         private void onWinFocusChange(IntPtr eventProcHandle)
         {
-            if(ProcessList.Text.Length > 0 && !ContainsFocus && ((RadioWindow.Checked && getProcessByHandle(eventProcHandle).MainWindowTitle == ProcessList.Text) || (RadioProcess.Checked && getProcessByHandle(eventProcHandle).ProcessName == ProcessList.Text)))
+            if (ProcessList.Text.Length > 0 && !ContainsFocus && ((RadioWindow.Checked && getProcessByHandle(eventProcHandle).MainWindowTitle == ProcessList.Text) || (RadioProcess.Checked && getProcessByHandle(eventProcHandle).ProcessName == ProcessList.Text)))
                 Cursor.Clip = getTargetRect();
+            else
+                Cursor.Clip = new Rectangle();
         }
 
         private Rectangle RECT2Rectangle(RECT rect) // also converts left/top/right/bottom --> X/Y/width/height
